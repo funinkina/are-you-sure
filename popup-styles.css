@@ -69,7 +69,7 @@ body.element-popup-open {
 }
 
 .element-popup-active {
-    background-color: #4CAF50;
+    background-color: #538ac3;
     color: white;
     border: none;
     border-left: 1px solid #333;
@@ -81,7 +81,8 @@ body.element-popup-open {
 }
 
 .element-popup-active:hover {
-    background-color: #3e8e41;
+    background-color: #342e2e;
+    color: white;
 }
 
 .element-popup-container * {
