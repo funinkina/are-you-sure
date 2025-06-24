@@ -84,6 +84,39 @@
     font-size: 12px;
 }
 
+.element-popup-actions {
+    margin-top: 15px;
+    display: flex;
+    justify-content: space-between;
+}
+
+.element-popup-confirm,
+.element-popup-cancel {
+    padding: 8px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    border: 1px solid #ddd;
+}
+
+.element-popup-confirm {
+    background-color: #4CAF50;
+    color: white;
+    border-color: #4CAF50;
+}
+
+.element-popup-cancel {
+    background-color: #f5f5f5;
+    color: #333;
+}
+
+.element-popup-confirm:hover {
+    background-color: #3e8e41;
+}
+
+.element-popup-cancel:hover {
+    background-color: #e0e0e0;
+}
+
 /* Ensure popup appears above everything */
 .element-popup-container * {
     box-sizing: border-box;

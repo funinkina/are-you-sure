@@ -93,13 +93,37 @@
 
             showPopup(element, event);
 
-            setTimeout(() => {
-                if (element.tagName.toLowerCase() === 'a' && element.href) {
+            const isLink = element.tagName.toLowerCase() === 'a' && element.href;
+            const isSubmit = element.type === 'submit';
+            const form = isSubmit ? element.form : null;
+
+            const popupContent = popup.querySelector('.element-popup-body');
+            const actionDiv = document.createElement('div');
+            actionDiv.className = 'element-popup-actions';
+            actionDiv.innerHTML = `
+                <button id="confirm-action" class="element-popup-confirm">Continue</button>
+                <button id="cancel-action" class="element-popup-cancel">Cancel</button>
+            `;
+            popupContent.appendChild(actionDiv);
+
+            document.getElementById('confirm-action').addEventListener('click', () => {
+                hidePopup();
+                if (isLink) {
                     window.location.href = element.href;
-                } else if (element.type === 'submit') {
-                    element.click();
+                } else if (isSubmit && form) {
+                    form.submit();
+                } else {
+                    const newEvent = new MouseEvent('click', {
+                        bubbles: true,
+                        cancelable: true,
+                        view: window
+                    });
+                    newEvent._bypassPopup = true;
+                    element.dispatchEvent(newEvent);
                 }
-            }, 100);
+            });
+
+            document.getElementById('cancel-action').addEventListener('click', hidePopup);
         }
     }
 
