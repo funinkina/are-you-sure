@@ -1,12 +1,9 @@
-// Content script that runs on all pages
 (function () {
     'use strict';
 
     let isExtensionEnabled = true;
     let popup = null;
 
-    // Define which elements should trigger the popup
-    // You can modify these selectors based on your needs
     const TRIGGER_SELECTORS = [
         'button',
         'a',
@@ -21,17 +18,17 @@
         popup.id = 'element-click-popup';
         popup.className = 'element-popup-container';
         popup.innerHTML = `
-      <div class="element-popup-content">
-        <div class="element-popup-header">
-          <span class="element-popup-title">Element Clicked!</span>
-          <button class="element-popup-close">&times;</button>
-        </div>
-        <div class="element-popup-body">
-          <p class="element-popup-text">You clicked on: <span id="clicked-element-info"></span></p>
-          <p class="element-popup-details">Element details will appear here</p>
-        </div>
-      </div>
-    `;
+            <div class="element-popup-content">
+                <div class="element-popup-header">  
+                    <span class="element-popup-title">Element Clicked!</span>
+                    <button class="element-popup-close">&times;</button>
+                </div>
+                <div class="element-popup-body">
+                    <p class="element-popup-text">You clicked on: <span id="clicked-element-info"></span></p>
+                    <p class="element-popup-details">Element details will appear here</p>
+                </div>
+            </div>
+        `;
 
         document.body.appendChild(popup);
         return popup;

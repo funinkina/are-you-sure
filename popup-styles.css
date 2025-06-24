@@ -1,0 +1,102 @@
+.element-popup-container {
+    position: absolute;
+    z-index: 10000;
+    display: none;
+    background: white;
+    border: 2px solid #333;
+    border-radius: 8px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+    width: 300px;
+    max-width: 90vw;
+    animation: popupFadeIn 0.2s ease-out;
+}
+
+@keyframes popupFadeIn {
+    from {
+        opacity: 0;
+        transform: scale(0.9);
+    }
+
+    to {
+        opacity: 1;
+        transform: scale(1);
+    }
+}
+
+.element-popup-content {
+    padding: 0;
+}
+
+.element-popup-header {
+    background: #4CAF50;
+    color: white;
+    padding: 10px 15px;
+    border-radius: 6px 6px 0 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.element-popup-title {
+    font-weight: bold;
+    font-size: 16px;
+}
+
+.element-popup-close {
+    background: none;
+    border: none;
+    color: white;
+    font-size: 20px;
+    cursor: pointer;
+    padding: 0;
+    width: 24px;
+    height: 24px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 3px;
+    transition: background-color 0.2s;
+}
+
+.element-popup-close:hover {
+    background-color: rgba(255, 255, 255, 0.2);
+}
+
+.element-popup-body {
+    padding: 15px;
+    line-height: 1.4;
+}
+
+.element-popup-text {
+    margin: 0 0 10px 0;
+    font-weight: bold;
+}
+
+.element-popup-details {
+    margin: 0;
+    color: #666;
+    background: #f5f5f5;
+    padding: 10px;
+    border-radius: 4px;
+    font-family: monospace;
+    font-size: 12px;
+}
+
+/* Ensure popup appears above everything */
+.element-popup-container * {
+    box-sizing: border-box;
+}
+
+/* Responsive adjustments */
+@media (max-width: 480px) {
+    .element-popup-container {
+        width: 280px;
+        font-size: 13px;
+    }
+
+    .element-popup-title {
+        font-size: 15px;
+    }
+}
