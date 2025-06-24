@@ -5,11 +5,23 @@
     let popup = null;
 
     const TRIGGER_SELECTORS = [
-        'button',
-        'a',
-        '.clickable',
-        '[data-click-popup]',
-        'input[type="submit"]'
+        // Main video thumbnails and containers
+        'a[href^="/watch"]',
+        'a.ytd-thumbnail',
+        'a.ytd-video-renderer',
+        'a.ytd-compact-video-renderer',
+        'a.ytd-playlist-video-renderer',
+        // Video player elements
+        'button.ytp-play-button',
+        '.ytp-thumbnail-overlay',
+        // Shorts
+        'a[href^="/shorts"]',
+        'a.ytd-shorts',
+        // More generic but still video-specific
+        'ytd-thumbnail',
+        'ytd-video-renderer',
+        // Specific video links
+        'a.yt-simple-endpoint[href^="/watch"]'
     ];
 
     function createPopup() {
@@ -105,13 +117,34 @@
             return false;
         }
 
-        return TRIGGER_SELECTORS.some(selector => {
+        const matchesSelector = TRIGGER_SELECTORS.some(selector => {
             try {
                 return element.matches(selector);
             } catch (e) {
                 return false;
             }
         });
+
+        if (matchesSelector) return true;
+
+        let parent = element.parentElement;
+        let depth = 0;
+        while (parent && depth < 5) {
+            const parentMatches = TRIGGER_SELECTORS.some(selector => {
+                try {
+                    return parent.matches(selector);
+                } catch (e) {
+                    return false;
+                }
+            });
+
+            if (parentMatches) return true;
+
+            parent = parent.parentElement;
+            depth++;
+        }
+
+        return false;
     }
 
     function handleClick(event) {
