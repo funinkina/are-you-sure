@@ -72,7 +72,7 @@
         popup.className = 'element-popup-container';
         popup.innerHTML = `
             <div class="element-popup-content">
-                <img src="https://i.imgflip.com/9oa21z.png" class="element-popup-image" alt="Are you sure?" />
+                <img src="https://media1.tenor.com/m/NpxX43CMKcsAAAAC/omni-man-omni-man-are-you-sure.gif" class="element-popup-image" alt="Are you sure?" />
 
                 <div class="element-popup-actions">
                     <button id="confirm-action" class="element-popup-deactive">YES</button>
