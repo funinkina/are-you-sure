@@ -57,7 +57,6 @@
             <strong>Text:</strong> ${textContent}${textContent.length === 50 ? '...' : ''}
         `;
 
-        // Center the popup on the screen
         popup.style.display = 'block';
         popup.style.left = '50%';
         popup.style.top = '50%';
@@ -66,15 +65,12 @@
         const closeBtn = popup.querySelector('.element-popup-close');
         closeBtn.onclick = hidePopup;
 
-        // Setup the action buttons
         const cancelBtn = document.getElementById('cancel-action');
         const confirmBtn = document.getElementById('confirm-action');
 
-        // Remove any existing event listeners first to prevent multiple handlers
         cancelBtn.replaceWith(cancelBtn.cloneNode(true));
         confirmBtn.replaceWith(confirmBtn.cloneNode(true));
 
-        // Get the fresh references after replacing the nodes
         document.getElementById('cancel-action').addEventListener('click', hidePopup);
         document.getElementById('confirm-action').addEventListener('click', () => {
             hidePopup();
@@ -96,12 +92,6 @@
                 element.dispatchEvent(newEvent);
             }
         });
-
-        // setTimeout(() => {
-        //     if (popup && popup.style.display === 'block') {
-        //         hidePopup();
-        //     }
-        // }, 5000);
     }
 
     function hidePopup() {
@@ -111,6 +101,10 @@
     }
 
     function shouldTriggerPopup(element) {
+        if (popup && popup.contains(element)) {
+            return false;
+        }
+
         return TRIGGER_SELECTORS.some(selector => {
             try {
                 return element.matches(selector);
@@ -121,7 +115,6 @@
     }
 
     function handleClick(event) {
-        // Skip if this event has the bypass flag
         if (event._bypassPopup) return;
 
         const element = event.target;
