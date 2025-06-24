@@ -67,17 +67,11 @@
         popup.className = 'element-popup-container';
         popup.innerHTML = `
             <div class="element-popup-content">
-                <div class="element-popup-header">  
-                    <span class="element-popup-title">Element Clicked!</span>
-                    <button class="element-popup-close">&times;</button>
-                </div>
-                <div class="element-popup-body">
-                    <p class="element-popup-text">You clicked on: <span id="clicked-element-info"></span></p>
-                    <p class="element-popup-details">Element details will appear here</p>
-                    <div class="element-popup-actions">
-                        <button id="confirm-action" class="element-popup-confirm">Continue</button>
-                        <button id="cancel-action" class="element-popup-cancel">Cancel</button>
-                    </div>
+                <img src="https://i.imgflip.com/9oa21z.png" class="element-popup-image" alt="Are you sure?" />
+
+                <div class="element-popup-actions">
+                    <button id="confirm-action" class="element-popup-deactive">YES</button>
+                    <button id="cancel-action" class="element-popup-active">Nah I'm good</button>
                 </div>
             </div>
         `;
@@ -93,26 +87,10 @@
             popup = createPopup();
         }
 
-        const tagName = element.tagName.toLowerCase();
-        const className = element.className || 'No class';
-        const id = element.id || 'No ID';
-        const textContent = element.textContent.trim().substring(0, 50) || 'No text content';
-
-        document.getElementById('clicked-element-info').textContent = tagName;
-        document.querySelector('.element-popup-details').innerHTML = `
-            <strong>Tag:</strong> ${tagName}<br>
-            <strong>ID:</strong> ${id}<br>
-            <strong>Class:</strong> ${className}<br>
-            <strong>Text:</strong> ${textContent}${textContent.length === 50 ? '...' : ''}
-        `;
-
         popup.style.display = 'block';
         popup.style.left = '50%';
         popup.style.top = '50%';
         popup.style.transform = 'translate(-50%, -50%)';
-
-        const closeBtn = popup.querySelector('.element-popup-close');
-        closeBtn.onclick = hidePopup;
 
         const cancelBtn = document.getElementById('cancel-action');
         const confirmBtn = document.getElementById('confirm-action');

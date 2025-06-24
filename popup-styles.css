@@ -2,15 +2,17 @@
     position: absolute;
     z-index: 10000;
     display: none;
-    background: white;
-    border: 2px solid #333;
+    background: #3d301f;
+    border: 2px solid black;
     border-radius: 8px;
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
-    font-family: Arial, sans-serif;
-    font-size: 14px;
-    width: 300px;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, Cantarell, 'Open Sans', 'Helvetica Neue', sans-serif;
+    width: fit-content;
     max-width: 90vw;
     animation: popupFadeIn 0.2s ease-out;
+    overflow: hidden;
+    font-size: large;
+    font-weight: bold;
 }
 
 @keyframes popupFadeIn {
@@ -29,93 +31,41 @@
     padding: 0;
 }
 
-.element-popup-header {
-    background: #4CAF50;
-    color: white;
-    padding: 10px 15px;
-    border-radius: 6px 6px 0 0;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-}
-
-.element-popup-title {
-    font-weight: bold;
-    font-size: 16px;
-}
-
-.element-popup-close {
-    background: none;
+.element-popup-image {
+    width: inherit;
     border: none;
-    color: white;
-    font-size: 20px;
-    cursor: pointer;
-    padding: 0;
-    width: 24px;
-    height: 24px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border-radius: 3px;
-    transition: background-color 0.2s;
-}
-
-.element-popup-close:hover {
-    background-color: rgba(255, 255, 255, 0.2);
-}
-
-.element-popup-body {
-    padding: 15px;
-    line-height: 1.4;
-}
-
-.element-popup-text {
-    margin: 0 0 10px 0;
-    font-weight: bold;
-    color: #333;
-}
-
-.element-popup-details {
     margin: 0;
-    color: #666;
-    background: #f5f5f5;
-    padding: 10px;
-    border-radius: 4px;
-    font-family: monospace;
-    font-size: 12px;
+    display: block;
+    border-bottom: 2px solid black;
 }
 
 .element-popup-actions {
-    margin-top: 15px;
     display: flex;
-    justify-content: space-between;
+    margin: 0;
+    padding: 0;
 }
 
-.element-popup-confirm,
-.element-popup-cancel {
-    padding: 8px 12px;
-    border-radius: 4px;
+.element-popup-deactive,
+.element-popup-active {
+    padding: 16px 12px;
     cursor: pointer;
-    border: 1px solid #ddd;
+    width: 100%;
 }
 
-.element-popup-confirm {
+.element-popup-active {
     background-color: #4CAF50;
     color: white;
-    border-color: #4CAF50;
+    border: none;
+    border-left: 1px solid #333;
 }
 
-.element-popup-cancel {
-    background-color: #f5f5f5;
-    color: #333;
+.element-popup-deactive {
+    border: none;
+    border-right: 1px solid #333;
 }
 
-.element-popup-confirm:hover {
+.element-popup-active:hover {
     background-color: #3e8e41;
-}
-
-.element-popup-cancel:hover {
-    background-color: #e0e0e0;
 }
 
 .element-popup-container * {
@@ -126,9 +76,5 @@
     .element-popup-container {
         width: 280px;
         font-size: 13px;
-    }
-
-    .element-popup-title {
-        font-size: 15px;
     }
 }

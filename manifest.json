@@ -1,8 +1,8 @@
 {
     "manifest_version": 2,
-    "name": "Element Click Popup",
+    "name": "Are you sure?",
     "version": "1.0",
-    "description": "Shows a popup when certain elements are clicked",
+    "description": "Rethink before clicking on addictive things!",
     "permissions": [
         "activeTab",
         "<all_urls>",
@@ -23,7 +23,7 @@
         }
     ],
     "browser_action": {
-        "default_title": "Toggle Element Click Popup",
+        "default_title": "Are you sure?",
         "default_popup": "popup.html",
         "default_icon": {
             "16": "icons/icon-16.png",
