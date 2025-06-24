@@ -53,12 +53,10 @@ document.addEventListener('DOMContentLoaded', function () {
         updateUI();
     });
 
-    // Handle site checkboxes
     siteCheckboxes.forEach(checkbox => {
         checkbox.addEventListener('change', function () {
             enabledSites[this.value] = this.checked;
 
-            // Save to storage
             browser.storage.local.set({ enabledSites: enabledSites });
 
             browser.tabs.query({ active: true, currentWindow: true }, function (tabs) {

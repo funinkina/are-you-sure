@@ -17,7 +17,6 @@ body.element-popup-open {
 .element-popup-container {
     position: absolute;
     z-index: 10001;
-    /* Ensure popup appears above the overlay */
     display: none;
     background: #3d301f;
     border: 2px solid black;
@@ -28,8 +27,8 @@ body.element-popup-open {
     max-width: 90vw;
     animation: popupFadeIn 0.2s ease-out;
     overflow: hidden;
-    font-size: large;
-    font-weight: bold;
+    font-size: large !important;
+    font-weight: bold !important;
 }
 
 @keyframes popupFadeIn {
