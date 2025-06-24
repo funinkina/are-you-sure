@@ -1,6 +1,23 @@
+.element-popup-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    backdrop-filter: blur(20px);
+    z-index: 9999;
+    display: none;
+}
+
+body.element-popup-open {
+    overflow: hidden;
+}
+
 .element-popup-container {
     position: absolute;
-    z-index: 10000;
+    z-index: 10001;
+    /* Ensure popup appears above the overlay */
     display: none;
     background: #3d301f;
     border: 2px solid black;

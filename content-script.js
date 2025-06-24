@@ -3,6 +3,7 @@
 
     let isExtensionEnabled = true;
     let popup = null;
+    let overlay = null;
 
     const YOUTUBE_SELECTORS = [
         'a[href^="/watch"]',
@@ -62,6 +63,10 @@
     });
 
     function createPopup() {
+        overlay = document.createElement('div');
+        overlay.className = 'element-popup-overlay';
+        document.body.appendChild(overlay);
+
         const popup = document.createElement('div');
         popup.id = 'element-click-popup';
         popup.className = 'element-popup-container';
@@ -86,6 +91,9 @@
         if (!popup) {
             popup = createPopup();
         }
+
+        overlay.style.display = 'block';
+        document.body.classList.add('element-popup-open');
 
         popup.style.display = 'block';
         popup.style.left = '50%';
@@ -124,6 +132,10 @@
     function hidePopup() {
         if (popup) {
             popup.style.display = 'none';
+            if (overlay) {
+                overlay.style.display = 'none';
+            }
+            document.body.classList.remove('element-popup-open');
         }
     }
 
