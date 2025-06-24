@@ -1,6 +1,8 @@
+<img src="icons/icon-128.png" align="left"></img>
 # Are you sure?
-## Have Mr. Invincible make sure that if you really want to access the content, or do something better
+## Have Mr. Invincible make sure that if you really want to access the content, or do something better.
 
+## Preview
 ![screenshot](screenshot.png)
 
 ### How it works?
