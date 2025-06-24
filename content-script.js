@@ -25,6 +25,10 @@
                 <div class="element-popup-body">
                     <p class="element-popup-text">You clicked on: <span id="clicked-element-info"></span></p>
                     <p class="element-popup-details">Element details will appear here</p>
+                    <div class="element-popup-actions">
+                        <button id="confirm-action" class="element-popup-confirm">Continue</button>
+                        <button id="cancel-action" class="element-popup-cancel">Cancel</button>
+                    </div>
                 </div>
             </div>
         `;
@@ -53,19 +57,51 @@
             <strong>Text:</strong> ${textContent}${textContent.length === 50 ? '...' : ''}
         `;
 
-        const rect = element.getBoundingClientRect();
+        // Center the popup on the screen
         popup.style.display = 'block';
-        popup.style.left = Math.min(event.pageX + 10, window.innerWidth - 320) + 'px';
-        popup.style.top = Math.min(event.pageY + 10, window.innerHeight - 200) + 'px';
+        popup.style.left = '50%';
+        popup.style.top = '50%';
+        popup.style.transform = 'translate(-50%, -50%)';
 
         const closeBtn = popup.querySelector('.element-popup-close');
         closeBtn.onclick = hidePopup;
 
-        setTimeout(() => {
-            if (popup && popup.style.display === 'block') {
-                hidePopup();
+        // Setup the action buttons
+        const cancelBtn = document.getElementById('cancel-action');
+        const confirmBtn = document.getElementById('confirm-action');
+
+        // Remove any existing event listeners first to prevent multiple handlers
+        cancelBtn.replaceWith(cancelBtn.cloneNode(true));
+        confirmBtn.replaceWith(confirmBtn.cloneNode(true));
+
+        // Get the fresh references after replacing the nodes
+        document.getElementById('cancel-action').addEventListener('click', hidePopup);
+        document.getElementById('confirm-action').addEventListener('click', () => {
+            hidePopup();
+            const isLink = element.tagName.toLowerCase() === 'a' && element.href;
+            const isSubmit = element.type === 'submit';
+            const form = isSubmit ? element.form : null;
+
+            if (isLink) {
+                window.location.href = element.href;
+            } else if (isSubmit && form) {
+                form.submit();
+            } else {
+                const newEvent = new MouseEvent('click', {
+                    bubbles: true,
+                    cancelable: true,
+                    view: window
+                });
+                newEvent._bypassPopup = true;
+                element.dispatchEvent(newEvent);
             }
-        }, 5000);
+        });
+
+        // setTimeout(() => {
+        //     if (popup && popup.style.display === 'block') {
+        //         hidePopup();
+        //     }
+        // }, 5000);
     }
 
     function hidePopup() {
@@ -85,45 +121,15 @@
     }
 
     function handleClick(event) {
+        // Skip if this event has the bypass flag
+        if (event._bypassPopup) return;
+
         const element = event.target;
 
         if (shouldTriggerPopup(element)) {
             event.preventDefault();
             event.stopPropagation();
-
             showPopup(element, event);
-
-            const isLink = element.tagName.toLowerCase() === 'a' && element.href;
-            const isSubmit = element.type === 'submit';
-            const form = isSubmit ? element.form : null;
-
-            const popupContent = popup.querySelector('.element-popup-body');
-            const actionDiv = document.createElement('div');
-            actionDiv.className = 'element-popup-actions';
-            actionDiv.innerHTML = `
-                <button id="confirm-action" class="element-popup-confirm">Continue</button>
-                <button id="cancel-action" class="element-popup-cancel">Cancel</button>
-            `;
-            popupContent.appendChild(actionDiv);
-
-            document.getElementById('confirm-action').addEventListener('click', () => {
-                hidePopup();
-                if (isLink) {
-                    window.location.href = element.href;
-                } else if (isSubmit && form) {
-                    form.submit();
-                } else {
-                    const newEvent = new MouseEvent('click', {
-                        bubbles: true,
-                        cancelable: true,
-                        view: window
-                    });
-                    newEvent._bypassPopup = true;
-                    element.dispatchEvent(newEvent);
-                }
-            });
-
-            document.getElementById('cancel-action').addEventListener('click', hidePopup);
         }
     }
 
