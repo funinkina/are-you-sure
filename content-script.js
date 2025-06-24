@@ -4,25 +4,62 @@
     let isExtensionEnabled = true;
     let popup = null;
 
-    const TRIGGER_SELECTORS = [
-        // Main video thumbnails and containers
+    const YOUTUBE_SELECTORS = [
         'a[href^="/watch"]',
         'a.ytd-thumbnail',
         'a.ytd-video-renderer',
         'a.ytd-compact-video-renderer',
         'a.ytd-playlist-video-renderer',
-        // Video player elements
         'button.ytp-play-button',
         '.ytp-thumbnail-overlay',
-        // Shorts
         'a[href^="/shorts"]',
         'a.ytd-shorts',
-        // More generic but still video-specific
         'ytd-thumbnail',
         'ytd-video-renderer',
-        // Specific video links
         'a.yt-simple-endpoint[href^="/watch"]'
     ];
+
+    const REDDIT_SELECTORS = [
+        'a.title',
+        'a[href^="/r/"]',
+        'a.post',
+        'a.comments-link',
+        'button.arrow',
+        '.post-link',
+        '[data-click-id="body"]',
+        '[data-click-id="image"]'
+    ];
+
+    const TWITTER_SELECTORS = [
+        'a[href^="/status"]',
+        'div[data-testid="tweet"]',
+        'div[role="button"]',
+        'article'
+    ];
+
+    const FACEBOOK_SELECTORS = [
+        'a[href^="/posts"]',
+        'a[href^="/photo"]',
+        'a[href^="/video"]',
+        'div[role="button"]'
+    ];
+
+    let enabledSites = {
+        youtube: true,
+        reddit: true,
+        twitter: true,
+        facebook: true
+    };
+
+    browser.storage.local.get(['enabledSites', 'isEnabled'], function (result) {
+        if (result.enabledSites) {
+            enabledSites = result.enabledSites;
+        }
+
+        if (result.isEnabled !== undefined) {
+            isExtensionEnabled = result.isEnabled;
+        }
+    });
 
     function createPopup() {
         const popup = document.createElement('div');
@@ -117,7 +154,29 @@
             return false;
         }
 
-        const matchesSelector = TRIGGER_SELECTORS.some(selector => {
+        const hostname = window.location.hostname;
+        let currentSite = null;
+        let siteSelectors = [];
+
+        if (hostname.includes('youtube.com')) {
+            currentSite = 'youtube';
+            siteSelectors = YOUTUBE_SELECTORS;
+        } else if (hostname.includes('reddit.com')) {
+            currentSite = 'reddit';
+            siteSelectors = REDDIT_SELECTORS;
+        } else if (hostname.includes('twitter.com') || hostname.includes('x.com')) {
+            currentSite = 'twitter';
+            siteSelectors = TWITTER_SELECTORS;
+        } else if (hostname.includes('facebook.com')) {
+            currentSite = 'facebook';
+            siteSelectors = FACEBOOK_SELECTORS;
+        }
+
+        if (!currentSite || !enabledSites[currentSite]) {
+            return false;
+        }
+
+        const matchesSelector = siteSelectors.some(selector => {
             try {
                 return element.matches(selector);
             } catch (e) {
@@ -130,7 +189,7 @@
         let parent = element.parentElement;
         let depth = 0;
         while (parent && depth < 5) {
-            const parentMatches = TRIGGER_SELECTORS.some(selector => {
+            const parentMatches = siteSelectors.some(selector => {
                 try {
                     return parent.matches(selector);
                 } catch (e) {
@@ -162,12 +221,18 @@
     browser.runtime.onMessage.addListener((request, sender, sendResponse) => {
         if (request.action === 'toggleExtension') {
             isExtensionEnabled = request.enabled;
+            browser.storage.local.set({ isExtensionEnabled: isExtensionEnabled });
+
             if (!isExtensionEnabled) {
                 hidePopup();
             }
             sendResponse({ status: 'success' });
         } else if (request.action === 'getStatus') {
-            sendResponse({ enabled: isExtensionEnabled });
+            sendResponse({ enabled: isExtensionEnabled, sites: enabledSites });
+        } else if (request.action === 'updateSites') {
+            enabledSites = request.sites;
+            browser.storage.local.set({ enabledSites: enabledSites });
+            sendResponse({ status: 'success' });
         }
     });
 

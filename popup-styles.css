@@ -72,6 +72,7 @@
 .element-popup-text {
     margin: 0 0 10px 0;
     font-weight: bold;
+    color: #333;
 }
 
 .element-popup-details {
@@ -117,12 +118,10 @@
     background-color: #e0e0e0;
 }
 
-/* Ensure popup appears above everything */
 .element-popup-container * {
     box-sizing: border-box;
 }
 
-/* Responsive adjustments */
 @media (max-width: 480px) {
     .element-popup-container {
         width: 280px;

@@ -1,61 +1,97 @@
 document.addEventListener('DOMContentLoaded', function () {
-    const statusDiv = document.getElementById('status');
-    const statusText = document.getElementById('status-text');
     const toggleBtn = document.getElementById('toggle-btn');
+    const statusText = document.getElementById('status-text');
+    const statusContainer = document.getElementById('status');
+    const siteCheckboxes = document.querySelectorAll('input[name="site"]');
 
     let isEnabled = true;
+    let enabledSites = {
+        youtube: true,
+        reddit: true,
+        twitter: true,
+        facebook: true
+    };
 
-    // Get current status from content script
-    function updateStatus() {
-        browser.tabs.query({ active: true, currentWindow: true }, function (tabs) {
-            browser.tabs.sendMessage(tabs[0].id, { action: 'getStatus' }, function (response) {
-                if (response) {
-                    isEnabled = response.enabled;
-                    updateUI();
-                } else {
-                    // Fallback if content script not loaded
-                    statusText.textContent = 'Ready';
-                    statusDiv.className = 'status enabled';
-                    toggleBtn.textContent = 'Disable';
-                }
-            });
-        });
-    }
-
-    // Update UI based on current status
-    function updateUI() {
-        if (isEnabled) {
-            statusText.textContent = 'Active';
-            statusDiv.className = 'status enabled';
-            toggleBtn.textContent = 'Disable';
-            toggleBtn.className = 'toggle-btn';
-        } else {
-            statusText.textContent = 'Disabled';
-            statusDiv.className = 'status disabled';
-            toggleBtn.textContent = 'Enable';
-            toggleBtn.className = 'toggle-btn disabled';
+    browser.storage.local.get(['enabledSites', 'isEnabled'], function (result) {
+        if (result.enabledSites) {
+            enabledSites = result.enabledSites;
         }
-    }
 
-    // Toggle extension state
-    function toggleExtension() {
+        if (result.isEnabled !== undefined) {
+            isEnabled = result.isEnabled;
+        }
+
+        updateUI();
+        updateCheckboxes();
+
+        browser.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+            if (tabs[0]) {
+                browser.tabs.sendMessage(tabs[0].id, { action: 'getStatus' })
+                    .then(response => {
+                        if (response) {
+                            isEnabled = response.enabled;
+                            updateUI();
+                        }
+                    })
+                    .catch(error => console.log('Error getting status:', error));
+            }
+        });
+    });
+
+    toggleBtn.addEventListener('click', function () {
         isEnabled = !isEnabled;
+
+        browser.storage.local.set({ isEnabled: isEnabled });
 
         browser.tabs.query({ active: true, currentWindow: true }, function (tabs) {
             browser.tabs.sendMessage(tabs[0].id, {
                 action: 'toggleExtension',
                 enabled: isEnabled
-            }, function (response) {
-                if (response && response.status === 'success') {
-                    updateUI();
-                }
             });
         });
+
+        updateUI();
+    });
+
+    // Handle site checkboxes
+    siteCheckboxes.forEach(checkbox => {
+        checkbox.addEventListener('change', function () {
+            enabledSites[this.value] = this.checked;
+
+            // Save to storage
+            browser.storage.local.set({ enabledSites: enabledSites });
+
+            browser.tabs.query({ active: true, currentWindow: true }, function (tabs) {
+                browser.tabs.sendMessage(tabs[0].id, {
+                    action: 'updateSites',
+                    sites: enabledSites
+                });
+            });
+        });
+    });
+
+    function updateUI() {
+        if (isEnabled) {
+            statusContainer.classList.add('enabled');
+            statusContainer.classList.remove('disabled');
+            statusText.textContent = 'Enabled';
+            toggleBtn.textContent = 'Disable';
+            toggleBtn.classList.remove('disabled');
+        } else {
+            statusContainer.classList.add('disabled');
+            statusContainer.classList.remove('enabled');
+            statusText.textContent = 'Disabled';
+            toggleBtn.textContent = 'Enable';
+            toggleBtn.classList.add('disabled');
+        }
     }
 
-    // Event listeners
-    toggleBtn.addEventListener('click', toggleExtension);
-
-    // Initialize
-    updateStatus();
+    function updateCheckboxes() {
+        for (const site in enabledSites) {
+            const checkbox = document.getElementById(site);
+            if (checkbox) {
+                checkbox.checked = enabledSites[site];
+            }
+        }
+    }
 });

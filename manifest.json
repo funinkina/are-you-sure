@@ -5,7 +5,8 @@
     "description": "Shows a popup when certain elements are clicked",
     "permissions": [
         "activeTab",
-        "<all_urls>"
+        "<all_urls>",
+        "storage"
     ],
     "content_scripts": [
         {
