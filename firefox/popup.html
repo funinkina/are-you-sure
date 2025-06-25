@@ -1,0 +1,150 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <style>
+        body {
+            width: 250px;
+            padding: 15px;
+            font-family: Arial, sans-serif;
+            margin: 0;
+        }
+        
+        .header {
+            text-align: center;
+            margin-bottom: 15px;
+        }
+        
+        .title {
+            font-size: 16px;
+            font-weight: bold;
+            color: #333;
+            margin: 0;
+        }
+        
+        .status {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            padding: 10px;
+            background: #f5f5f5;
+            border-radius: 5px;
+        }
+        
+        .status-text {
+            font-weight: bold;  
+        }
+        
+        .status.enabled {
+            background: #e8f5e8;
+            color: #2e7d32;
+        }
+        
+        .status.disabled {
+            background: #ffebee;
+            color: #c62828;
+        }
+        
+        .toggle-btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 8px 16px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+            transition: background-color 0.2s;
+        }
+        
+        .toggle-btn:hover {
+            background: #45a049;
+        }
+        
+        .toggle-btn.disabled {
+            background: #f44336;
+        }
+        
+        .toggle-btn.disabled:hover {
+            background: #da190b;
+        }
+        
+        .info {
+            font-size: 12px;
+            color: #666;
+            line-height: 1.4;
+            margin-top: 10px;
+        }
+        
+        .site-selectors {
+            margin-top: 15px;
+        }
+        
+        .site-selectors h4 {
+            margin: 0 0 8px 0;
+            font-size: 13px;
+            color: #333;
+        }
+        
+        .checkbox-list {
+            background: #f9f9f9;
+            padding: 8px 12px;
+            border-radius: 3px;
+        }
+        
+        .checkbox-item {
+            display: flex;
+            align-items: center;
+            margin: 6px 0;
+        }
+        
+        .checkbox-item label {
+            margin-left: 6px;
+            font-size: 13px;
+            cursor: pointer;
+        }
+        
+        .checkbox-item input[type="checkbox"] {
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    <div class="header">
+        <h3 class="title">Are you sure?</h3>
+    </div>
+
+    <div class="status" id="status">
+        <span class="status-text" id="status-text">Loading...</span>
+        <button class="toggle-btn" id="toggle-btn">Toggle</button>
+    </div>
+    
+    <div class="info">
+        Have Mr. Invincible to make sure that you want to access the following content.
+    </div>
+    
+    <div class="site-selectors">
+        <h4>Enable for Sites:</h4>
+        <div class="checkbox-list">
+        <div class="checkbox-item">
+            <input type="checkbox" id="youtube" name="site" value="youtube" checked>
+            <label for="youtube">YouTube</label>
+        </div>
+        <div class="checkbox-item">
+            <input type="checkbox" id="reddit" name="site" value="reddit">
+            <label for="reddit">Reddit</label>
+        </div>
+        <div class="checkbox-item">
+            <input type="checkbox" id="twitter" name="site" value="twitter">
+            <label for="twitter">Twitter/X</label>
+        </div>
+        <div class="checkbox-item">
+            <input type="checkbox" id="facebook" name="site" value="facebook">
+            <label for="facebook">Facebook</label>
+        </div>
+        </div>
+    </div>
+    
+    <script src="popup.js"></script>
+</body>
+</html>
