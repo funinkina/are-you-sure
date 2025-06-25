@@ -7,7 +7,7 @@
 
 ### How it works?
 1. Click on any YouTube video.
-2. Mark Grayson will ask for your confirmaton.
+2. Nolan Grayson will ask for your confirmaton.
 
 ## Installation
 
