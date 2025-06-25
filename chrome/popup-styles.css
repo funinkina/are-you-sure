@@ -15,7 +15,7 @@ body.element-popup-open {
 }
 
 .element-popup-container {
-    position: absolute;
+    position: fixed;
     z-index: 10001;
     display: none;
     background: #3d301f;

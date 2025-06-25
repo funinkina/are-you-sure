@@ -7,7 +7,9 @@
         "storage"
     ],
     "host_permissions": [
-        "<all_urls>"
+        "*://*.youtube.com/*",
+        "*://*.reddit.com/*",
+        "*://*.x.com/*"
     ],
     "content_scripts": [
         {

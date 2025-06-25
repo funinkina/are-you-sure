@@ -5,7 +5,9 @@
     "description": "Rethink before clicking on addictive things!",
     "permissions": [
         "activeTab",
-        "<all_urls>",
+        "https://*.youtube.com/*",
+        "https://*.x.com/*",
+        "https://*.reddit.com/*",
         "storage"
     ],
     "content_scripts": [
